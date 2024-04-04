@@ -8,4 +8,4 @@
 # Resources
 
   - Implementacion Red-Black Tree
-    - [Introduction to Algorithms] (https://mcube.lab.nycu.edu.tw/~cfung/docs/books/cormen2001algorithms.pdf)
+    - [Introduction to Algorithms](https://mcube.lab.nycu.edu.tw/~cfung/docs/books/cormen2001algorithms.pdf)
