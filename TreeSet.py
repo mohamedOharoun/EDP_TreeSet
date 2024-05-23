@@ -8,7 +8,6 @@ class Color(Enum):
     RED = 0
     BLACK = 1
 
-
 class TreeSet:
     def __init__(self, data_type, collection=None):
         if data_type is None:
@@ -74,6 +73,44 @@ class TreeSet:
         new_tree._rb = self._rb.clone()
         return new_tree
     
+    def pollFirst(self):
+        result = self._rb.pollFirst()
+        if result is not None:
+            self._size -= 1
+        return result
+
+    def first(self):
+        return self._rb.first()
+
+    def floor(self, key):
+        if not isinstance(key, self._type):
+            raise Exception
+        return self._rb.floor(key)
+
+    def higher(self, key):
+        if not isinstance(key, self._type):
+            raise Exception
+        return self._rb.higher(key)
+
+    def last(self):
+        return self._rb.last()
+
+    def lower(self, key):
+        if not isinstance(key, self._type):
+            raise Exception
+        return self._rb.lower(key)
+
+    def pollLast(self):
+        result = self._rb.pollLast()
+        if result is not None:
+            self._size -= 1
+        return result
+    
+    def ceiling(self, key):
+        if not isinstance(key, self._type):
+            raise Exception
+        return self._rb.ceiling(key)
+    
     def __iter__(self):
         return self._rb.__iter__()
     
@@ -88,8 +125,6 @@ class TreeSet:
 
 tree = TreeSet(data_type=int, collection=[1, 5, 3, 4, 5])
 tree2 = tree.clone()
-print(tree.size())
-print(tree.remove(1), tree.remove(2))
-print(tree.size())
-for i in reversed(tree2):
-    print(i)
+print(tree.first())
+tree.add(0)
+print(tree.first())

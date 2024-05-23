@@ -19,6 +19,85 @@ class RedBlackTree:
         self.nil = Node(data_type=data_type, key=None, color=Color.BLACK)
         self.data_type = data_type
         self.root = self.nil
+    
+    def first(self):
+        if self.root == self.nil:
+            return None
+        return self._minimum(self.root).key
+
+    def floor(self, key):
+        return self._floor(self.root, key)
+
+    def _floor(self, node, key):
+        if node == self.nil:
+            return None
+        if key == node.key:
+            return node.key
+        if key < node.key:
+            return self._floor(node.left, key)
+    
+        floor_key = self._floor(node.right, key)
+        return floor_key if floor_key is not None else node.key
+    
+    def higher(self, key):
+        return self._higher(self.root, key)
+
+    def _higher(self, node, key):
+        if node == self.nil:
+            return None
+        if key < node.key:
+            higher_key = self._higher(node.left, key)
+            return higher_key if higher_key is not None else node.key
+        return self._higher(node.right, key)
+    
+    def last(self):
+        if self.root == self.nil:
+            return None
+        return self._maximum(self.root).key
+
+    def _maximum(self, node):
+        while node != self.nil and node.right != self.nil:
+            node = node.right
+        return node
+    
+    def lower(self, key):
+        return self._lower(self.root, key)
+
+    def _lower(self, node, key):
+        if node == self.nil:
+            return None
+        if key > node.key:
+            lower_key = self._lower(node.right, key)
+            return lower_key if lower_key is not None else node.key
+        return self._lower(node.left, key)
+
+    def pollFirst(self):
+        if self.root == self.nil:
+            return None
+        first_key = self.first()
+        self.delete(first_key)
+        return first_key
+    
+    def pollFirst(self):
+        if self.root == self.nil:
+            return None
+        first_key = self.first()
+        self.delete(first_key)
+        return first_key
+    
+    def ceiling(self, key):
+        return self._ceiling(self.root, key)
+
+    def _ceiling(self, node, key):
+        if node == self.nil:
+            return None
+        if key == node.key:
+            return node.key
+        if key > node.key:
+            return self._ceiling(node.right, key)
+        
+        ceiling_key = self._ceiling(node.left, key)
+        return ceiling_key if ceiling_key is not None else node.key
 
     def lookup(self, key):
         return self._lookup(self.root, key)
