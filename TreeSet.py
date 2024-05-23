@@ -1,8 +1,8 @@
 # Red-Black Tree
 from enum import Enum
 from inspect import isabstract
-from abc import ABC
 from RedBlackTree import RedBlackTree
+from Exceptions import *
 
 class Color(Enum):
     RED = 0
@@ -10,10 +10,22 @@ class Color(Enum):
 
 class TreeSet:
     def __init__(self, data_type, collection=None):
-        if data_type is None:
-            raise Exception
-        if not isinstance(data_type, type) and not isabstract(data_type):
-            raise Exception
+        if data_type is None or (not isinstance(data_type, type) and not isabstract(data_type)):
+            raise TypeError("TreeSet must be provided a class")
+        self._type = data_type
+        self._size = 0
+        self._rb = RedBlackTree(self._type)
+        if collection is not None:
+            self.addAll(collection)
+
+    def _check(self, key):
+        if not isinstance(key, self._type):
+            raise TypeError(f"Element must be instance of {self._type.__name__}, {type(key).__name__} provided")
+        if not self._is_comparable(key):
+            raise ClassCastException(type(key))
+
+    def _is_comparable(self, key):
+        data_type = type(key)
         count = 0
         if data_type is object or data_type.__eq__ is not object.__eq__:
             count += 1
@@ -22,16 +34,11 @@ class TreeSet:
         if data_type is object or data_type.__lt__ is not object.__lt__:
             count += 1
         if count < 3:
-            raise Exception
-        self._type = data_type
-        self._size = 0
-        self._rb = RedBlackTree(self._type)
-        if collection is not None:
-            self.addAll(collection)
+            return False
+        return True
 
     def add(self, new_key):
-        if not isinstance(new_key, self._type):
-            raise Exception
+        self._check(new_key)
         changed = self._rb.insert(new_key)
         if changed:
             self._size += 1
@@ -40,16 +47,14 @@ class TreeSet:
     def addAll(self, new_keys):
         changed = False
         for new_key in new_keys:
-            if not isinstance(new_key, self._type):
-                raise Exception
+            self._check(new_key)
             if self._rb.insert(new_key):
                 self._size += 1
                 changed = True
         return changed
 
     def remove(self, key):
-        if not isinstance(key, self._type):
-            raise Exception
+        self._check(key)
         changed = self._rb.delete(key)
         if changed:
             self._size -= 1
@@ -62,6 +67,7 @@ class TreeSet:
         return self._size
 
     def contains(self, key):
+        self._check(key)
         return  self._rb.contains(key)
 
     def clear(self):
@@ -80,24 +86,25 @@ class TreeSet:
         return result
 
     def first(self):
+        if self._size == 0:
+            raise NoSuchElementException()
         return self._rb.first()
 
     def floor(self, key):
-        if not isinstance(key, self._type):
-            raise Exception
+        self._check(key)
         return self._rb.floor(key)
 
     def higher(self, key):
-        if not isinstance(key, self._type):
-            raise Exception
+        self._check(key)
         return self._rb.higher(key)
 
     def last(self):
+        if self._size == 0:
+            raise NoSuchElementException()
         return self._rb.last()
 
     def lower(self, key):
-        if not isinstance(key, self._type):
-            raise Exception
+        self._check(key)
         return self._rb.lower(key)
 
     def pollLast(self):
@@ -107,8 +114,7 @@ class TreeSet:
         return result
     
     def ceiling(self, key):
-        if not isinstance(key, self._type):
-            raise Exception
+        self._check(key)
         return self._rb.ceiling(key)
     
     def __iter__(self):
@@ -123,8 +129,7 @@ class TreeSet:
     def descendingIterator(self):
         return self._rb.__reversed__()
 
-tree = TreeSet(data_type=int, collection=[1, 5, 3, 4, 5])
-tree2 = tree.clone()
-print(tree.first())
-tree.add(0)
-print(tree.first())
+tree = TreeSet(data_type=int)
+print(tree.size())
+tree.remove(3)
+print(tree.size())
