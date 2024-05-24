@@ -6,3 +6,6 @@ class ClassCastException(Exception):
 
 class NoSuchElementException(Exception):
     pass
+
+class NullPointerException(Exception):
+    pass

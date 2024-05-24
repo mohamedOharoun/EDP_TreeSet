@@ -19,6 +19,8 @@ class TreeSet:
             self.addAll(collection)
 
     def _check(self, key):
+        if key is None:
+            raise NullPointerException()
         if not isinstance(key, self._type):
             raise TypeError(f"Element must be instance of {self._type.__name__}, {type(key).__name__} provided")
         if not self._is_comparable(key):
