@@ -61,7 +61,7 @@ class TreeSet:
         return changed
     
     def isEmpty(self):
-        return True if self._size > 0 else False
+        return True if self._size == 0 else False
     
     def size(self):
         return self._size
@@ -77,6 +77,7 @@ class TreeSet:
     def clone(self):
         new_tree = TreeSet(data_type=self._type)
         new_tree._rb = self._rb.clone()
+        new_tree._size = self._size
         return new_tree
     
     def pollFirst(self):
