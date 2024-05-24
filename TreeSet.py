@@ -131,8 +131,3 @@ class TreeSet:
     
     def descendingIterator(self):
         return self._rb.__reversed__()
-
-tree = TreeSet(data_type=int)
-print(tree.size())
-tree.remove(3)
-print(tree.size())

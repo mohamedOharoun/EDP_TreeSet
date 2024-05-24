@@ -394,21 +394,3 @@ class RedBlackTree:
         if new_node.right != nil:
             new_node.right.parent = new_node
         return new_node
-"""
-tree = RedBlackTree(int)
-print(tree.insert(-1))
-print(tree.contains(3))
-print(tree.contains(-1))
-start_time = time.time()
-number = 10
-for i in range(number, 0, -1):
-    print(i)
-    tree.insert(i)
-end_time = time.time()
-print(end_time - start_time)
-start_time = time.time()
-tree.insert(number)
-end_time = time.time()
-print(end_time - start_time)
-print(tree.insert(1_000))
-"""
