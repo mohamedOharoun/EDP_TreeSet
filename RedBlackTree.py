@@ -1,6 +1,4 @@
 from enum import Enum
-import time
-
 class Color(Enum):
     RED = 0
     BLACK = 1
@@ -78,12 +76,17 @@ class RedBlackTree:
         self.delete(first_key)
         return first_key
     
-    def pollFirst(self):
+    def pollLast(self):
         if self.root == self.nil:
             return None
-        first_key = self.first()
-        self.delete(first_key)
-        return first_key
+        last_key = self._last()
+        self.delete(last_key)
+        return last_key
+
+    def _last(self):
+        if self.root == self.nil:
+            return None
+        return self._maximum(self.root).key
     
     def ceiling(self, key):
         return self._ceiling(self.root, key)
@@ -211,7 +214,7 @@ class RedBlackTree:
         return True
 
     def _transplant(self, u, v):
-        if u.parent == self.nil:
+        if u.parent is None:
             self.root = v
         elif u == u.parent.left:
             u.parent.left = v
@@ -309,28 +312,6 @@ class RedBlackTree:
         while node is not None and node.left != self.nil:
             node = node.left
         return node
-
-    def print_tree(self):
-        self._inorder_traversal(self.root)
-
-    def _inorder_traversal(self, node):
-        if node != self.nil:
-            self._inorder_traversal(node.left)
-            parent_key = node.parent.key if node.parent != self.nil else None
-            color = node.color.name
-            print(f"Key: {node.key}, Color: {color}, Parent: {parent_key}")
-            self._inorder_traversal(node.right)
-
-    def print_tree(self):
-        self._inorder_traversal(self.root)
-
-    def _inorder_traversal(self, node):
-        if node != self.nil:
-            parent_key = node.parent.key if node.parent is not None else None
-            color = node.color.name
-            print(f"Key: {node.key}, Color: {color}, Parent: {parent_key}")
-            self._inorder_traversal(node.left)
-            self._inorder_traversal(node.right)
     
     def __iter__(self):
         return self.KeysIterator(self.root, self.nil)
