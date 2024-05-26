@@ -1,0 +1,7 @@
+RedBlackTree module
+===================
+
+.. automodule:: RedBlackTree
+   :members:
+   :undoc-members:
+   :show-inheritance:
